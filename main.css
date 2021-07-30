@@ -7,7 +7,7 @@ body {
 
 header {
   display: flex;
-  padding-top: 13px;
+  height: 64px;
   border-bottom: 1px solid lightgray;
   background: #15171b;
   font-size: 13px;
@@ -18,8 +18,8 @@ svg {
 }
 .header-left {
   display: flex;
-  margin-top: 2px;
   margin-left: 32px;
+  margin-top: 14px;
 }
 .logo {
   margin-right: 18px;
@@ -78,7 +78,7 @@ svg {
   display: flex;
   padding: 0;
   margin-top: 5px;
-  margin-left: 10px;
+  margin-left: 8px;
   list-style-type: none;
 }
 .menu-item {
@@ -91,6 +91,7 @@ svg {
 .header-right {
   display: flex;
   height: 50px;
+  margin-top: 6px;
   margin-right: 25px;
   justify-content: space-between;
 }
