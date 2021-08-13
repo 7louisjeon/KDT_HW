@@ -1,9 +1,9 @@
-from NaverNewsCrawler import NaverNewsCrawler
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import smtplib
 import re
 from openpyxl import load_workbook
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from NaverNewsCrawler import NaverNewsCrawler
 
 keyword = input("Set the keyword: ")
 crawler = NaverNewsCrawler(keyword)
@@ -16,21 +16,21 @@ SMTP_PORT = 465
 SMTP_USER = 'wjss5115@gmail.com'
 SMTP_PASSWORD = 'secret-password-test-result-successful'
 
-def send_mail(name, addr, subject, contents, attachment=None):
-    if not re.match('(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', addr):
+def send_mail(name, address, subject, contents, attachment=None):
+    if not re.match('(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', address):
         print('Wrong email')
         return
 
-    msg = MIMEMultipart('alternative')
+    message = MIMEMultipart('alternative')
     if attachment:
-        msg = MIMEMultipart('mixed')
+        message = MIMEMultipart('mixed')
 
-    msg['From'] = SMTP_USER
-    msg['To'] = addr
-    msg['Subject'] = name + '님, ' + subject
+    message['From'] = SMTP_USER
+    message['To'] = address
+    message['Subject'] = name + '님, ' + subject
 
     text = MIMEText(contents, _charset='utf-8')
-    msg.attach(text)
+    message.attach(text)
 
     if attachment:
         from email.mime.base import MIMEBase
@@ -43,11 +43,11 @@ def send_mail(name, addr, subject, contents, attachment=None):
         import os
         filename = os.path.basename(attachment)
         file_data.add_header('Content-Disposition', 'attachment; filename="'+filename+'"')
-        msg.attach(file_data)
+        message.attach(file_data)
     
     smtp = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
     smtp.login(SMTP_USER, SMTP_PASSWORD)
-    smtp.sendmail(SMTP_USER, addr, msg.as_string())
+    smtp.sendmail(SMTP_USER, address,  message.as_string())
     smtp.close()
 
 wb = load_workbook('email_list.xlsx')
